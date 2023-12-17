@@ -1,0 +1,20 @@
+.search-box {
+  grid-column: col-start 5 / span 5;
+  display: flex;
+  align-items: center;
+
+  background-color: white;
+  border: black 1px;
+  height: 3rem;
+}
+
+.input-box {
+  width: 21rem;
+}
+
+@media (max-width: 950px) {
+  .search-box {
+    grid-column: col-start 2 / span 10;
+    grid-row: second-line / 3;
+  }
+}
