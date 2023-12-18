@@ -1,0 +1,50 @@
+Footer {
+    background-color: #01101e;
+}
+
+.footer-content {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    gap: 10rem;
+    height: 5rem;
+}
+
+.about-links {
+    display: flex;
+    gap: 1.5rem;
+}
+
+.social-links {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.about-links a {
+    text-decoration: none;
+    color: white;
+}
+
+.footer-content p {
+    color: white;
+}
+
+@media (max-width: 950px) {
+    .footer-content {
+        flex-direction: column;
+        gap: 0;
+        height: 10rem;
+    }
+
+    .social-links {
+        order: 1;
+    }
+
+    .about-links {
+        order: 2;
+    }
+
+    .footer-content p {
+        order: 3;
+    }
+}
