@@ -18,6 +18,8 @@ return new Intl.NumberFormat('en-US', {
 
 
 function Products(){
+    const theme = useTheme();
+    const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
     const [sort, setSort] = useState("low-high");
     const [products, setProducts] = useState([
         {
@@ -100,8 +102,8 @@ function Products(){
    
     return(
         <>
-            <Container maxWidth="xl" sx={{my:5}}>
-                <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mt: 2, mb:3 }}>
+            <Container maxWidth="xl" sx={{mt: isMobile ? -75: 5, mb:5}}>
+                <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center',  flexWrap: isMobile ? 'wrap': '', mt: isMobile ? 2 : 2, mb:3 }}>
                     <Typography variant="h3" component="h2" gutterBottom 
                         sx={{ 
                             fontSize: '2rem', 
@@ -117,7 +119,7 @@ function Products(){
                         value={sort}
                         label="Price"
                         onChange={handleSortChange}
-                        sx={{ height:40, mr: 2, minWidth: 180 }}
+                        sx={{ height:40, mr: 2, minWidth: 160 }}
                         >
                         <MenuItem value="last-added">Last Added</MenuItem>
                         <MenuItem value="low-high">Price: low to high</MenuItem>
@@ -129,9 +131,9 @@ function Products(){
                         </Button>
                     </Box>
                 </Box>
-                <Grid container spacing={4}>
+                <Grid container pt= {isMobile ? 500: 0} spacing={4}>
                     {products.map((product) => (
-                        <Grid item xs={12} sm={6} md={4} lg={12/5} key={product.id}>
+                        <Grid item xs={12} sm={6} md={4} lg= {isMobile ? 12: 12/5} key={product.id}>
                         <Card>
                         <CardMedia
                             component="img"
