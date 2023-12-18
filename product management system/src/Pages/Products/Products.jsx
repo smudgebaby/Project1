@@ -102,7 +102,7 @@ function Products(){
    
     return(
         <>
-            <Container maxWidth="xl" sx={{mt: isMobile ? -75: 5, mb:5}}>
+            <Container maxWidth="xl" sx={{mt: isMobile ? 0: 5, mb:5}}>
                 <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center',  flexWrap: isMobile ? 'wrap': '', mt: isMobile ? 2 : 2, mb:3 }}>
                     <Typography variant="h3" component="h2" gutterBottom 
                         sx={{ 
@@ -131,7 +131,7 @@ function Products(){
                         </Button>
                     </Box>
                 </Box>
-                <Grid container pt= {isMobile ? 500: 0} spacing={4}>
+                <Grid container pt= {isMobile ? 0: 0} spacing={4}>
                     {products.map((product) => (
                         <Grid item xs={12} sm={6} md={4} lg= {isMobile ? 12: 12/5} key={product.id}>
                         <Card>
