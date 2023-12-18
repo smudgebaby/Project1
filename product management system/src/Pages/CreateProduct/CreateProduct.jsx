@@ -8,7 +8,6 @@ import {
 } from '@mui/material';
 import {useState} from 'react';
 import ImagePreview from '../../Components/ImagePreview.jsx';
-import './CreateProduct.css';
 
 const VisuallyHiddenInput = styled('input')({
   clip: 'rect(0 0 0 0)',
