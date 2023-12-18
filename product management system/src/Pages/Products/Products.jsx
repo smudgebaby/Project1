@@ -137,7 +137,7 @@ function Products(){
                             component="img"
                             image={product.imageUrl}
                             alt={product.name}
-                            sx={{ mt: 1.5, mr: 1.5, mb: 1.5, ml: 1.5, width:'92%' }}
+                            sx={{ mt: 1, mr: 1, mb: 1, ml: 1, width:'92%' }}
                             />
                         <CardContent sx={{mt: -2, mb:-2}}>
                         <Typography gutterBottom variant="body2" color="text.secondary" component="div">
@@ -150,9 +150,9 @@ function Products(){
                         </Typography>
                         </CardContent>
                         <CardActions>
-                        <Box sx={{display: 'flex', justifyContent: 'space-between',  gap: 1, mb:1, mr:1.5}}>
-                            <Button variant="contained" sx={{width: '120px', ml:0.5} }>Add</Button>
-                            <Button variant="outlined" sx={{width: '120px'}} size="small">Edit</Button>
+                        <Box sx={{display: 'flex', justifyContent: 'space-between',  gap: 1, mb:1}}>
+                            <Button variant="contained" sx={{width: '82px', ml:0.5} }>Add</Button>
+                            <Button variant="outlined" sx={{width: '82px'}} size="small">Edit</Button>
                         </Box>
                         </CardActions>
                         </Card>
