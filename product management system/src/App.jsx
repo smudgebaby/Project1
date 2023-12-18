@@ -10,7 +10,7 @@ function App() {
   return (
     <Router>
       <Header />
-      <Container maxWidth="lg" sx={{minHeight: 1100, display: "flex", justifyContent: "center", alignItems: "center"}}>
+      <Container maxWidth="lg" sx={{height: '88vh', minHeight: 900, display: "flex", justifyContent: "center", alignItems: "center"}}>
         <Routes>
           <Route path='/signin' element={<SignIn />} />
           <Route path='/signup' element={<SignUp />} />
