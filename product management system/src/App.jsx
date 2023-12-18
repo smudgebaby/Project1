@@ -2,6 +2,8 @@ import './App.css'
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 import SignIn from './Pages/SignIn/SignIn.jsx'
 import SignUp from './Pages/SignUp/SignUp.jsx'
+import ResetPassword from './Pages/ResetPassword/ResetPassword.jsx'
+import Confirmation from './Pages/Confirmation/Confirmation.jsx'
 import Header from './Components/Header.jsx';
 import Footer from './Components/Footer.jsx';
 import Products from './Pages/Products/Products.jsx';
@@ -60,6 +62,8 @@ function App() {
         <Routes>
           <Route path='/signin' element={<SignIn />} />
           <Route path='/signup' element={<SignUp />} />
+          <Route path='/resetpassword' element={<ResetPassword />} />
+          <Route path='/confirmation' element={<Confirmation />} />
           <Route path='/create' element={<CreateProduct />} />
           <Route path='/products' element={<Products />} />
           <Route path='/detail' element={<ProductDetail />} />

@@ -1,0 +1,38 @@
+.confirmation-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+.confirmation {
+  display: flex;
+  flex-direction: column;
+  justify-items: center;
+  justify-content: center; 
+  width: 50vw;
+  min-height: 400px;
+  min-width: 300px; 
+  max-width: 600px; 
+  border-radius: 10px;
+  background-color: white;
+  box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+  padding: 20px;
+  margin: auto;
+  text-align: center;
+}
+
+.confirmation svg {
+  margin: 0 auto;
+}
+
+.confirmation .description {
+  font-size: medium;
+  margin: 20px 5rem 20px;
+  font-weight: 750;
+}
+
+@media (max-width: 800px) {
+  .confirmation .description {
+    margin: 20px 2rem 20px;
+  }
+}
