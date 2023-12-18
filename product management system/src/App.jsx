@@ -4,6 +4,7 @@ import SignIn from './Pages/SignIn/SignIn.jsx'
 import SignUp from './Pages/SignUp/SignUp.jsx'
 import Header from './Components/Header.jsx';
 import Footer from './Components/Footer.jsx';
+import Products from './Pages/Products/Products.jsx';
 import CreateProduct from './Pages/CreateProduct/CreateProduct.jsx';
 
 function App() {
@@ -16,6 +17,7 @@ function App() {
           <Route path='/signin' element={<SignIn />} />
           <Route path='/signup' element={<SignUp />} />
           <Route path='/create' element={<CreateProduct />} />
+          <Route path='/products' element={<Products />} />
         </Routes>
         <Footer />
       </Router>
