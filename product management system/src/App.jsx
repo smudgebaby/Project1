@@ -7,9 +7,20 @@ import Footer from './Components/Footer.jsx';
 import Products from './Pages/Products/Products.jsx';
 import CreateProduct from './Pages/CreateProduct/CreateProduct.jsx';
 import ProductDetail from './Pages/ProductDetail/ProductDetail.jsx';
+import Cart from './Components/CartDetail.jsx';
 import {Container} from '@mui/material';
+import { useState } from 'react';
 
 function App() {
+  const [cartItems, setCartItems] = useState([]);
+  const [isCartOpen, setIsCartOpen] = useState(true);
+  const handleCartOpen = () => {
+    setIsCartOpen(true);
+  };
+
+  const handleCartClose = () => {
+    setIsCartOpen(false);
+  };
 
   return (
     <Router>
@@ -21,6 +32,7 @@ function App() {
           <Route path='/create' element={<CreateProduct />} />
           <Route path='/products' element={<Products />} />
           <Route path='/detail' element={<ProductDetail />} />
+          <Route path='/cart' element={<Cart open={isCartOpen} handleClose={handleCartClose} cartItems={cartItems} />} />
         </Routes>
       </Container>
       <Footer />
