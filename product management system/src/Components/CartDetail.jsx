@@ -1,4 +1,5 @@
 import {
+  Grid,
   Dialog,
   DialogTitle,
   DialogContent,
@@ -6,15 +7,32 @@ import {
   List,
   ListItem,
   ListItemText,
+  Avatar,
+  ListItemAvatar,
   ListItemSecondaryAction,
   Button,
   Typography,
   Box,
-  TextField,
+  TextField
 } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
+import RemoveIcon from '@mui/icons-material/Remove';
+import AddIcon from '@mui/icons-material/Add';
 
-function Cart({ open, handleClose, cartItems }) {
+function Cart({ open, handleClose, cartItems, setCartItems }) {
+  const handleUpdateQuantity = (productId, newQuantity) => {
+    if (newQuantity < 0) return;
+
+    setCartItems(currentItems =>
+      currentItems.map(item =>
+        item.id === productId ? { ...item, quantity: newQuantity } : item
+      )
+    );
+  };
+
+  const handleRemoveItem = (productId) => {
+    setCartItems(currentItems => currentItems.filter(item => item.id !== productId));
+  };
   return (
     <Dialog open={open} onClose={handleClose} fullWidth={true}
     maxWidth="sm"
@@ -41,16 +59,60 @@ function Cart({ open, handleClose, cartItems }) {
       </IconButton>
     </DialogTitle>
     <DialogContent>
-      <List>
+      <List sx={{ maxHeight: '400px', overflowY: 'auto' }}>
         {cartItems.map((item, index) => (
-          <ListItem key={index}>
-            <ListItemText primary={item.name} secondary={`$${item.price.toFixed(2)}`} />
-            {/* Add Quantity Selector */}
-            <ListItemSecondaryAction>
-              <IconButton edge="end" aria-label="remove" onClick={() => handleRemove(item.id)}>
-                {/* You can add a remove icon here */}
-              </IconButton>
-            </ListItemSecondaryAction>
+          <ListItem key={item.id} sx={{ flexDirection: 'column', alignItems: 'flex-start' }}>
+            <Grid container spacing={2} alignItems="flex">
+              <Grid item xs = {3}>
+                <ListItemAvatar>
+                <Avatar src={item.imageUrl} alt={item.name} sx={{ 
+                  width: 100,
+                  height: 100, 
+                  borderRadius: 0,
+                  mr:1
+                  
+                  }}/>
+                </ListItemAvatar>
+              </Grid>
+              <Grid item xs={9}>
+                <Grid container spacing={2} alignItems="flex" sx={{minWidth: 400, maxHeight:50}}>
+                  <Grid item xs={8}>
+                    <Typography variant="subtitle1">{item.name}</Typography>
+                  </Grid>
+                  <Grid item xs={4} sx={{ textAlign: 'right' }}>
+                    <Typography variant="subtitle1">{`$${item.price.toFixed(2)}`}</Typography>
+                  </Grid>
+                </Grid>
+                <Grid container spacing={1} alignItems="flex">
+                  <Grid item>
+                    <IconButton onClick={() => handleUpdateQuantity(item.id, item.quantity - 1)} size="small">
+                      <RemoveIcon />
+                    </IconButton>
+                  </Grid>
+                  <Grid item>
+                    <TextField
+                      size="small"
+                      value={item.quantity}
+                      inputProps={{ min: 1, style: { textAlign: 'center' } }}
+                      onChange={(event) => handleUpdateQuantity(item.id, parseInt(event.target.value))}
+                      sx={{ width: '40px' }}
+                    />
+                  </Grid>
+                  <Grid item>
+                    <IconButton onClick={() => handleUpdateQuantity(item.id, item.quantity + 1)} size="small">
+                      <AddIcon />
+                    </IconButton>
+                  </Grid>
+                  <Grid item xs={7.8} sx={{ display: 'flex', justifyContent: 'flex-end' }}>
+                    <Button variant="text" onClick={() => handleRemoveItem(item.id)}>
+                      Remove
+                    </Button>
+                  </Grid>
+                </Grid>
+              </Grid>
+            </Grid>
+            
+           
           </ListItem>
         ))}
       </List>

@@ -12,7 +12,38 @@ import {Container} from '@mui/material';
 import { useState } from 'react';
 
 function App() {
-  const [cartItems, setCartItems] = useState([]);
+  const [cartItems, setCartItems] = useState([
+    {
+        id: 1,
+        name: 'Apple Iphone 11, 128G',
+        price: 499,
+        imageUrl: '/1.png',
+        quantity:0
+
+    },
+    {
+        id: 2,
+        name: 'Apple Iphone 11, 128G',
+        price: 499,
+        imageUrl: '/2.png',
+        quantity:0
+    }, 
+    {
+      id: 3,
+      name: 'Apple Iphone 11, 128G',
+      price: 499,
+      imageUrl: '/3.png',
+      quantity:0
+    },
+    {
+      id: 4,
+      name: 'Apple Iphone 11, 128G',
+      price: 499,
+      imageUrl: '/4.png',
+      quantity:0
+    },
+
+  ]);
   const [isCartOpen, setIsCartOpen] = useState(true);
   const handleCartOpen = () => {
     setIsCartOpen(true);
@@ -32,7 +63,7 @@ function App() {
           <Route path='/create' element={<CreateProduct />} />
           <Route path='/products' element={<Products />} />
           <Route path='/detail' element={<ProductDetail />} />
-          <Route path='/cart' element={<Cart open={isCartOpen} handleClose={handleCartClose} cartItems={cartItems} />} />
+          <Route path='/cart' element={<Cart open={isCartOpen} handleClose={handleCartClose} cartItems={cartItems} setCartItems={setCartItems}/>} />
         </Routes>
       </Container>
       <Footer />
