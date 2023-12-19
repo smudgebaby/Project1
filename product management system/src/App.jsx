@@ -4,6 +4,7 @@ import SignIn from './Pages/SignIn/SignIn.jsx'
 import SignUp from './Pages/SignUp/SignUp.jsx'
 import ResetPassword from './Pages/ResetPassword/ResetPassword.jsx'
 import Confirmation from './Pages/Confirmation/Confirmation.jsx'
+import Error from './Pages/Error/Error.jsx'
 import Header from './Components/Header.jsx';
 import Footer from './Components/Footer.jsx';
 import Products from './Pages/Products/Products.jsx';
@@ -68,6 +69,7 @@ function App() {
           <Route path='/products' element={<Products />} />
           <Route path='/detail' element={<ProductDetail />} />
           <Route path='/cart' element={<Cart open={isCartOpen} handleClose={handleCartClose} cartItems={cartItems} setCartItems={setCartItems}/>} />
+          <Route path='*' element={<Error />} />
         </Routes>
       </Container>
       <Footer />

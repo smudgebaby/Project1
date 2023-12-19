@@ -1,0 +1,42 @@
+.error-container {
+  display: flex;
+  flex-direction: column;
+  justify-items: center;
+  justify-content: center; 
+  width: 200vw;
+	height: 50vh;
+  min-height: 400px;
+  min-width: 300px; 
+  border-radius: 10px;
+  background-color: white;
+  padding: 20px;
+  margin: auto;
+  text-align: center;
+}
+
+.error-container svg {
+  margin: 0 auto;
+}
+
+.error-container .description {
+  font-size: x-large;
+  margin: 20px 5rem 20px;
+  font-weight: 750;
+}
+
+.error-container .home-button {
+	background-color: #5b6af5;
+	color: white;
+	border: none;
+	width: 200px;
+	border-radius: 3px;
+	padding: 10px;
+	margin: 15px auto;
+}
+
+
+@media (max-width: 800px) {
+  .error-container .description {
+    margin: 20px 2rem 20px;
+  }
+}
