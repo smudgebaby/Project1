@@ -58,7 +58,7 @@ function SignIn() {
             
           <div className='additional-links'>
             <p>Don&apos;t have an account? <Link to='/signup'>Sign up</Link></p>
-            <a className='reset-password'>Forgot password?</a>
+            <Link to='/resetpassword' className='reset-password'>Forgot password?</Link>
           </div>
         </div>
       </div>
