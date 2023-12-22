@@ -12,49 +12,39 @@ import CreateProduct from './Pages/CreateProduct/CreateProduct.jsx';
 import ProductDetail from './Pages/ProductDetail/ProductDetail.jsx';
 import Cart from './Components/CartDetail.jsx';
 import {Container} from '@mui/material';
-import { useState } from 'react';
+import {useEffect, useState} from 'react';
+import {useDispatch, useSelector} from 'react-redux';
+import {setCurrentUser} from './Store/User/userAction.js';
+import {selectCurrentUser} from './Store/User/userSelector.js';
 
 function App() {
-  const [cartItems, setCartItems] = useState([
-    {
-        id: 1,
-        name: 'Apple Iphone 11, 128G',
-        price: 499,
-        imageUrl: '/1.png',
-        quantity:0
 
-    },
-    {
-        id: 2,
-        name: 'Apple Iphone 11, 128G',
-        price: 499,
-        imageUrl: '/2.png',
-        quantity:0
-    }, 
-    {
-      id: 3,
-      name: 'Apple Iphone 11, 128G',
-      price: 499,
-      imageUrl: '/3.png',
-      quantity:0
-    },
-    {
-      id: 4,
-      name: 'Apple Iphone 11, 128G',
-      price: 499,
-      imageUrl: '/4.png',
-      quantity:0
-    },
 
-  ]);
-  const [isCartOpen, setIsCartOpen] = useState(true);
-  const handleCartOpen = () => {
-    setIsCartOpen(true);
-  };
+  const dispatch = useDispatch();
 
-  const handleCartClose = () => {
-    setIsCartOpen(false);
-  };
+  const user = useSelector(selectCurrentUser);
+
+  useEffect(() => {
+    let isSubscribed = true;
+
+    const checkStatus = () => {
+      try {
+        if (isSubscribed) {
+          dispatch(setCurrentUser(user));
+        }
+      } catch (error) {
+        console.error('Error checking user status:', error);
+      }
+    };
+
+    checkStatus();
+
+    return () => {
+      isSubscribed = false;
+    };
+  }, [dispatch]);
+
+
 
   return (
     <Router>
@@ -68,7 +58,6 @@ function App() {
           <Route path='/create' element={<CreateProduct />} />
           <Route path='/products' element={<Products />} />
           <Route path='/detail' element={<ProductDetail />} />
-          <Route path='/cart' element={<Cart open={isCartOpen} handleClose={handleCartClose} cartItems={cartItems} setCartItems={setCartItems}/>} />
           <Route path='*' element={<Error />} />
         </Routes>
       </Container>

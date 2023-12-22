@@ -8,6 +8,9 @@ import {
     TextField,
     Typography, useMediaQuery, useTheme,
   } from '@mui/material';
+import {addItemToCart} from '../../Store/Cart/cartAction.js';
+import {useDispatch, useSelector} from 'react-redux';
+import {selectCartItems} from '../../Store/Cart/cartSelector.js';
 
 function formatPrice(price) {
 return new Intl.NumberFormat('en-US', {
@@ -99,7 +102,10 @@ function Products(){
     const handleSortChange = (event) => {
         setSort(event.target.value);
     }
-   
+
+    const dispatch = useDispatch();
+    const cartItems = useSelector(selectCartItems);
+
     return(
         <>
             <Container maxWidth="xl" sx={{mt: isMobile ? 0: 5, mb:5}}>
@@ -153,7 +159,7 @@ function Products(){
                         </CardContent>
                         <CardActions>
                         <Box sx={{display: 'flex', justifyContent: 'space-between',  gap: 1, mb:1}}>
-                            <Button variant="contained" sx={{width: '82px', ml:0.5} }>Add</Button>
+                            <Button variant="contained" sx={{width: '82px', ml:0.5} } onClick={() => dispatch(addItemToCart(cartItems, product))}>Add</Button>
                             <Button variant="outlined" sx={{width: '82px'}} size="small">Edit</Button>
                         </Box>
                         </CardActions>
