@@ -2,11 +2,16 @@ import { useState } from 'react'
 import { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import './SignIn.css'
+import {signInUser} from '../../Utils/backendUtil.js';
+import {useDispatch} from 'react-redux';
+import {setCurrentUser} from '../../Store/User/userAction.js';
 
 function SignIn() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [passwordShow, setPasswordShow] = useState(false);
+
+  const dispatch = useDispatch();
 
   useEffect(() => {
     console.log(passwordShow);
@@ -17,9 +22,11 @@ function SignIn() {
     setPasswordShow(!passwordShow)
   }
 
-  const handleSubmit = async () => {
-    console.log(password)
-    // TODO: handle submit with db and api
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const user = await signInUser();
+    console.log(user);
+    dispatch(setCurrentUser(user));
   }
 
   return (
