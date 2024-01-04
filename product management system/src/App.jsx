@@ -56,7 +56,7 @@ function App() {
           <Route path='/resetpassword' element={<ResetPassword />} />
           <Route path='/confirmation' element={<Confirmation />} />
           <Route path='/create' element={<CreateProduct />} />
-          <Route path='/products' element={<Products />} />
+          <Route path='/' element={<Products />} />
           <Route path='/detail' element={<ProductDetail />} />
           <Route path='*' element={<Error />} />
         </Routes>
