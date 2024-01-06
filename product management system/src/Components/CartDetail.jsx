@@ -66,49 +66,41 @@ function Cart({ open, handleClose, cartItems, setCartItems }) {
               <Grid item xs = {3}>
                 <ListItemAvatar>
                 <Avatar src={item.imageUrl} alt={item.name} sx={{ 
-                  width: 100,
-                  height: 100, 
+                  width: 'auto',
+                  height: 'auto', 
                   borderRadius: 0,
                   mr:1
                   
                   }}/>
                 </ListItemAvatar>
               </Grid>
-              <Grid item xs={9}>
-                <Grid container spacing={2} alignItems="flex" sx={{minWidth: 400, maxHeight:50}}>
-                  <Grid item xs={8}>
-                    <Typography variant="subtitle1">{item.name}</Typography>
-                  </Grid>
-                  <Grid item xs={4} sx={{ textAlign: 'right' }}>
-                    <Typography variant="subtitle1">{`$${item.price.toFixed(2)}`}</Typography>
-                  </Grid>
-                </Grid>
-                <Grid container spacing={1} alignItems="flex">
-                  <Grid item>
-                    <IconButton onClick={() => handleUpdateQuantity(item.id, item.quantity - 1)} size="small">
-                      <RemoveIcon />
-                    </IconButton>
-                  </Grid>
-                  <Grid item>
-                    <TextField
-                      size="small"
-                      value={item.quantity}
-                      inputProps={{ min: 1, style: { textAlign: 'center' } }}
-                      onChange={(event) => handleUpdateQuantity(item.id, parseInt(event.target.value))}
-                      sx={{ width: '40px' }}
-                    />
-                  </Grid>
-                  <Grid item>
-                    <IconButton onClick={() => handleUpdateQuantity(item.id, item.quantity + 1)} size="small">
-                      <AddIcon />
-                    </IconButton>
-                  </Grid>
-                  <Grid item xs={7.8} sx={{ display: 'flex', justifyContent: 'flex-end' }}>
-                    <Button variant="text" onClick={() => handleRemoveItem(item.id)}>
-                      Remove
-                    </Button>
-                  </Grid>
-                </Grid>
+              <Grid item xs={9} 
+              // sx={{ display: 'flex', justifyContent: 'space-between', flexWrap:'wrap'}}
+              >
+              <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', minWidth: 'auto', height: 50, mt:-2, mb:3 }}>
+                <Typography variant="subtitle1">{item.name}</Typography>
+                <Typography variant="subtitle1">{`$${item.price.toFixed(2)}`}</Typography>
+              </Box>
+              <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', minWidth: 'auto', height: 50, }}>
+                <Box sx={{ display: 'flex', justifyContent: 'flex-start', alignItems: 'center'}}>
+                  <IconButton onClick={() => handleUpdateQuantity(item.id, item.quantity - 1)} size="small">
+                    <RemoveIcon />
+                  </IconButton>
+                  <TextField
+                    size="small"
+                    value={item.quantity}
+                    inputProps={{ min: 1, style: { textAlign: 'center' } }}
+                    onChange={(event) => handleUpdateQuantity(item.id, parseInt(event.target.value))}
+                    sx={{ width: '40px' }}
+                  />
+                  <IconButton onClick={() => handleUpdateQuantity(item.id, item.quantity + 1)} size="small">
+                    <AddIcon />
+                  </IconButton>
+                </Box>
+                <Button variant="text" onClick={() => handleRemoveItem(item.id)}>
+                  Remove
+                </Button>
+              </Box>
               </Grid>
             </Grid>
             
@@ -127,10 +119,22 @@ function Cart({ open, handleClose, cartItems, setCartItems }) {
       </Box>
       {/* Add other cart summary details */}
       <Box sx={{ mt: 2 }}>
-        <Typography variant="body1">Subtotal: $499.00</Typography>
-        <Typography variant="body1">Tax: $49.90</Typography>
-        <Typography variant="body1">Discount: -$20.00</Typography>
-        <Typography variant="h6">Estimated total: $429.10</Typography>
+        <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}>
+          <Typography variant="body1">Subtotal:</Typography>
+          <Typography variant="body1">$400.00</Typography>
+        </Box>
+        <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}>
+          <Typography variant="body1">Tax:</Typography>
+          <Typography variant="body1">$49.90</Typography>
+        </Box>
+        <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}>
+          <Typography variant="body1">Discount:</Typography>
+          <Typography variant="body1">-$20.00</Typography>
+        </Box>
+        <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}>
+          <Typography variant="h6">Estimated total:</Typography>
+          <Typography variant="h6">$429.90</Typography>
+        </Box>
       </Box>
       <Box sx={{ display: 'flex', justifyContent: 'center', mt: 3 }}>
         <Button variant="contained" color="primary" size="large">
