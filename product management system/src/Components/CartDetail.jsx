@@ -18,8 +18,29 @@ import {
 import CloseIcon from '@mui/icons-material/Close';
 import RemoveIcon from '@mui/icons-material/Remove';
 import AddIcon from '@mui/icons-material/Add';
+import {useDispatch, useSelector} from 'react-redux';
+import {
+  selectCartCount,
+  selectCartItems, selectCartTotal,
+  selectIsCartOpen,
+} from '../Store/Cart/cartSelector.js';
+import {
+  addItemToCart,
+  clearItemFromCart, removeItemFromCart,
+  setIsCartOpen, updateItemToCart,
+} from '../Store/Cart/cartAction.js';
 
-function Cart({ open, handleClose, cartItems, setCartItems }) {
+function Cart({ setCartItems }) {
+
+  const dispatch = useDispatch();
+
+  const toggleIsCartOpen = () => dispatch(setIsCartOpen(!isCartOpen));
+
+  const isCartOpen = useSelector(selectIsCartOpen);
+  const cartCount = useSelector(selectCartCount);
+  const cartItems = useSelector(selectCartItems);
+  const cartTotal = useSelector(selectCartTotal);
+
   const handleUpdateQuantity = (productId, newQuantity) => {
     if (newQuantity < 0) return;
 
@@ -31,10 +52,11 @@ function Cart({ open, handleClose, cartItems, setCartItems }) {
   };
 
   const handleRemoveItem = (productId) => {
-    setCartItems(currentItems => currentItems.filter(item => item.id !== productId));
+    dispatch(clearItemFromCart())
   };
+
   return (
-    <Dialog open={open} onClose={handleClose} fullWidth={true}
+    <Dialog open={isCartOpen} onClose={toggleIsCartOpen} fullWidth={true}
     maxWidth="sm"
     PaperProps={{
       style: {
@@ -45,9 +67,9 @@ function Cart({ open, handleClose, cartItems, setCartItems }) {
       },
     }}>
     <DialogTitle sx={{ bgcolor: 'primary.main', color: 'primary.contrastText' }}>
-      Cart ({cartItems.length})
+      Cart ({cartCount})
       <IconButton
-        onClick={handleClose}
+        onClick={toggleIsCartOpen}
         sx={{
           position: 'absolute',
           right: 8,
@@ -74,33 +96,44 @@ function Cart({ open, handleClose, cartItems, setCartItems }) {
                   }}/>
                 </ListItemAvatar>
               </Grid>
-              <Grid item xs={9} 
-              // sx={{ display: 'flex', justifyContent: 'space-between', flexWrap:'wrap'}}
-              >
-              <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', minWidth: 'auto', height: 50, mt:-2, mb:3 }}>
-                <Typography variant="subtitle1">{item.name}</Typography>
-                <Typography variant="subtitle1">{`$${item.price.toFixed(2)}`}</Typography>
-              </Box>
-              <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', minWidth: 'auto', height: 50, }}>
-                <Box sx={{ display: 'flex', justifyContent: 'flex-start', alignItems: 'center'}}>
-                  <IconButton onClick={() => handleUpdateQuantity(item.id, item.quantity - 1)} size="small">
-                    <RemoveIcon />
-                  </IconButton>
-                  <TextField
-                    size="small"
-                    value={item.quantity}
-                    inputProps={{ min: 1, style: { textAlign: 'center' } }}
-                    onChange={(event) => handleUpdateQuantity(item.id, parseInt(event.target.value))}
-                    sx={{ width: '40px' }}
-                  />
-                  <IconButton onClick={() => handleUpdateQuantity(item.id, item.quantity + 1)} size="small">
-                    <AddIcon />
-                  </IconButton>
-                </Box>
-                <Button variant="text" onClick={() => handleRemoveItem(item.id)}>
-                  Remove
-                </Button>
-              </Box>
+              <Grid item xs={9}>
+                <Grid container spacing={2} alignItems="flex" sx={{minWidth: 400, maxHeight:50}}>
+                  <Grid item xs={8}>
+                    <Typography variant="subtitle1">{item.name}</Typography>
+                  </Grid>
+                  <Grid item xs={4} sx={{ textAlign: 'right' }}>
+                    <Typography variant="subtitle1">{`$${item.price.toFixed(2)}`}</Typography>
+                  </Grid>
+                </Grid>
+                <Grid container spacing={1} alignItems="flex">
+                  <Grid item>
+                    <IconButton onClick={() => dispatch(removeItemFromCart(cartItems, item))} size="small">
+                      <RemoveIcon />
+                    </IconButton>
+                  </Grid>
+                  <Grid item>
+                    <TextField
+                      size="small"
+                      value={item.quantity}
+                      inputProps={{ min: 1, style: { textAlign: 'center' } }}
+                      onChange={(event) => {
+                        event.preventDefault();
+                        dispatch(updateItemToCart(cartItems, item, parseInt(event.target.value)));
+                      }}
+                      sx={{ width: '40px' }}
+                    />
+                  </Grid>
+                  <Grid item>
+                    <IconButton onClick={() => dispatch(addItemToCart(cartItems, item))} size="small">
+                      <AddIcon />
+                    </IconButton>
+                  </Grid>
+                  <Grid item xs={7.8} sx={{ display: 'flex', justifyContent: 'flex-end' }}>
+                    <Button variant="text" onClick={() => dispatch(clearItemFromCart(cartItems, item))}>
+                      Remove
+                    </Button>
+                  </Grid>
+                </Grid>
               </Grid>
             </Grid>
             
@@ -119,22 +152,10 @@ function Cart({ open, handleClose, cartItems, setCartItems }) {
       </Box>
       {/* Add other cart summary details */}
       <Box sx={{ mt: 2 }}>
-        <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}>
-          <Typography variant="body1">Subtotal:</Typography>
-          <Typography variant="body1">$400.00</Typography>
-        </Box>
-        <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}>
-          <Typography variant="body1">Tax:</Typography>
-          <Typography variant="body1">$49.90</Typography>
-        </Box>
-        <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}>
-          <Typography variant="body1">Discount:</Typography>
-          <Typography variant="body1">-$20.00</Typography>
-        </Box>
-        <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}>
-          <Typography variant="h6">Estimated total:</Typography>
-          <Typography variant="h6">$429.90</Typography>
-        </Box>
+        <Typography variant="body1">Subtotal: ${cartTotal}</Typography>
+        <Typography variant="body1">Tax: $49.90</Typography>
+        <Typography variant="body1">Discount: -$20.00</Typography>
+        <Typography variant="h6">Estimated total: $429.10</Typography>
       </Box>
       <Box sx={{ display: 'flex', justifyContent: 'center', mt: 3 }}>
         <Button variant="contained" color="primary" size="large">
