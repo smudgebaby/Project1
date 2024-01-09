@@ -17,4 +17,4 @@ function generateToken(user) {
     return token
 }
 
-export default generateToken
+export default generateToken;

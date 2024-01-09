@@ -1,9 +1,9 @@
-const mongoose = require('mongoose');
+import mongoose from 'mongoose';
 
 const userSchema = new mongoose.Schema({
   name: {
     type: String,
-    required: true
+    required: false
   },
   email: {
     type: String,
@@ -33,16 +33,8 @@ const userSchema = new mongoose.Schema({
       type: mongoose.Schema.Types.ObjectId,
       ref: 'Coupon'
     }
-  }],
-  createdAt: {
-    type: Date,
-    default: Date.now
-  },
-  updatedAt: {
-    type: Date,
-    default: Date.now
-  }
-});
+  }]
+}, { timestamps: true });
 
 
 const productSchema = new mongoose.Schema({
@@ -69,16 +61,8 @@ const productSchema = new mongoose.Schema({
   image: {
     type: String,
     required: false // assuming an image may not always be present
-  },
-  createdAt: {
-    type: Date,
-    default: Date.now
-  },
-  updatedAt: {
-    type: Date,
-    default: Date.now
   }
-});
+}, { timestamps: true });
 
 
 const couponSchema = new mongoose.Schema({
@@ -94,11 +78,11 @@ const couponSchema = new mongoose.Schema({
   },
   validFrom: Date,
   validUntil: Date,
-});
+}, { timestamps: true });
 
 
 const Coupon = mongoose.model('Coupon', couponSchema);
 const User = mongoose.model('User', userSchema);
 const Product = mongoose.model('Product', productSchema);
 
-module.exports = { User, Product, Coupon };
+export default {User, Product, Coupon};
