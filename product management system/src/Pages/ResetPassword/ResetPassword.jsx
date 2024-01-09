@@ -1,36 +1,24 @@
-import { useState } from 'react'
-import { useNavigate } from 'react-router-dom';
+import Layout from '../Layout/Layout';
 import './ResetPassword.css'
 
-function ResetPassword() {
-  const [email, setEmail] = useState('');
-  let navigate = useNavigate();
+const ResetPassword = () => {
+  const isValidEmail = () => {
+    return true;
+  };
 
-  const handleSubmit = () => {
-    navigate('/confirmation')
-  }
-
+  const isValidPassword = () => {
+    return true;
+  };
   return (
-    <>
-      <div className='reset-password-container'>
-        <div className="reset-password-form-container">
-          <h1>Update your password</h1>
-          <p className='description'>Enter your email link, we will send you the recovery link</p>
-          <form onSubmit={handleSubmit}>
-            <label>Email</label>
-            <input 
-              type="email"
-              id="email"
-              onChange={e => setEmail(e.target.value)} 
-              required>
-            </input>
+    <Layout
+      status='reset-password'
+      title="Update your password"
+      description="Enter your email below, and we will send you the recovery link."
+      buttonText="Update Password"
+      isValidEmail={isValidEmail}
+      isValidPassword={isValidPassword}
+    />
+  );
+};
 
-            <button type='submit' className='reset-password-button'>Update password</button>
-          </form>
-        </div>
-      </div>
-    </>
-  )
-}
-
-export default ResetPassword
+export default ResetPassword;
