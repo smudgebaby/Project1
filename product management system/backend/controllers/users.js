@@ -1,16 +1,17 @@
-import User from '../models/models';
-import generateToken from '../../generateToken';
+import models from '../models/models.js';
+const {User} = models;
+import generateToken from '../middleware/generateToken.js';
 
 const signUp = async (req, res) => {
   
   try {
-    const { email, password } = req.body
+    const { email, password, role } = req.body
     
     if(await User.findOne({ email })) {
       return res.status(400).json({ message: 'Email already exists' })
     }
     
-    const user = new User({ email, password});
+    const user = new User({ email, password, role});
 
     await user.save();
     res.status(201).json({ message: 'User created'});

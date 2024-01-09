@@ -1,7 +1,7 @@
-import { Router } from 'express';
-import { signUp, signIn, resetPassword } from '../controllers/users';
-
-const router = Router();
+import express from 'express';
+import userController from '../controllers/users.js';
+const { signUp, signIn, resetPassword } = userController;
+const router = express.Router();
 
 router.post('/signup', signUp);
 router.post('/signin', signIn);
