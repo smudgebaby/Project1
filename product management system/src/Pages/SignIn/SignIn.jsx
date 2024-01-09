@@ -3,11 +3,11 @@ import { Link } from 'react-router-dom';
 import './SignIn.css'
 
 const SignIn = () => {
-  const additionalLinks = 
-  <>
-    <p>Don&apos;t have an account? <Link to='/signup'>Sign up</Link></p>
-    <Link to='/resetpassword' className='reset-password'>Forgot password?</Link>
-  </>
+  const additionalLinks =
+    <>
+      <p>Don&apos;t have an account? <Link to='/signup'>Sign up</Link></p>
+      <Link to='/resetpassword' className='reset-password'>Forgot password?</Link>
+    </>
   ;
 
   const isValidEmail = () => {

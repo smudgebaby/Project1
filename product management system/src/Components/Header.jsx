@@ -4,7 +4,6 @@ import {SvgIcon} from '@mui/material';
 import {useDispatch, useSelector} from 'react-redux';
 import {selectCurrentUser} from '../Store/User/userSelector.js';
 import {Link} from 'react-router-dom';
-import {setCurrentUser} from '../Store/User/userAction.js';
 import {
   selectCartTotal,
   selectIsCartOpen,
@@ -12,6 +11,7 @@ import {
 import CartDetail from './CartDetail';
 import {setIsCartOpen} from '../Store/Cart/cartAction.js';
 import {useState} from 'react';
+import {userSlice} from '../Store/userSlice.js';
 
 function Header() {
   const [cartItems, setCartItems] = useState([
@@ -70,7 +70,7 @@ function Header() {
               </svg>
             </SvgIcon>
             {currentUser ? (<a onClick={() => {
-              dispatch(setCurrentUser(null));
+              dispatch(userSlice.actions.setCurrentUser(null));
             }
             }>Sign Out</a>) : (<Link to='/signin'>Sign In</Link>)}
           </div>
