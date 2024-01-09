@@ -18,9 +18,31 @@ const Layout = ({ status, title, description, buttonText, additionalLinks, isVal
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    
+    switch (status) {
+      case 'signup':
+        handleSignUp()
+        break
+      case 'signin':
+        handleSignIn()
+        break
+      case 'reset-password':
+        handleResetPassword()
+    }
+  };
+
+  const handleSignUp = async () => {
+
+  }
+
+  const handleSignIn = async () => {
     const user = await signInUser();
     dispatch(setCurrentUser(user));
-  };
+  }
+
+  const handleResetPassword = async () => {
+
+  }
 
   return (
     <>
