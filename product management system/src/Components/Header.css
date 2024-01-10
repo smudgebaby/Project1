@@ -37,6 +37,11 @@ header {
     font-size: small;
 }
 
+.header-link {
+    text-decoration: none;
+    grid-column: col-start 1 / span 3;
+}
+
 @media (max-width: 950px) {
     .header-content {
         height: 8rem;

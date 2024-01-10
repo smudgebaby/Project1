@@ -1,4 +1,5 @@
 import express from 'express';
+import cors from 'cors';
 import connectDB from './db/index.js';
 import userRouter from './routes/user.js';
 import productRouter from './routes/product.js';
@@ -10,6 +11,7 @@ import {config} from 'dotenv';
 config();
 connectDB();
 
+index.use(cors());
 index.use(express.urlencoded({ extended: false }));
 index.use(express.json());
 
