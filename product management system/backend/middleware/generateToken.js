@@ -9,7 +9,7 @@ function generateToken(user) {
     const secretKey = 'SECRET_KEY';
 
     const options = {
-        expiredIn: '2h'
+        expiresIn: '2h'
     }
 
     const token = jwt.sign(payload, secretKey, options)

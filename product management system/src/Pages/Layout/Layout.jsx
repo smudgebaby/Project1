@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import PropTypes from 'prop-types';
-import {signInUser} from '../../Utils/backendUtil.js';
+import {signInUser, signUpUser, ResetPassword} from '../../Utils/backendUtil.js';
 import {useDispatch} from 'react-redux';
 import {setCurrentUser} from '../../Store/User/userAction.js';
 
@@ -32,16 +32,16 @@ const Layout = ({ status, title, description, buttonText, additionalLinks, isVal
   };
 
   const handleSignUp = async () => {
-
+    await signUpUser(email, password);
   }
 
   const handleSignIn = async () => {
-    const user = await signInUser();
+    const user = await signInUser(email, password);
     dispatch(setCurrentUser(user));
   }
 
   const handleResetPassword = async () => {
-
+    await ResetPassword(email);
   }
 
   return (
