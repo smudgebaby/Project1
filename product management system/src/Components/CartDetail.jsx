@@ -6,10 +6,8 @@ import {
   IconButton,
   List,
   ListItem,
-  ListItemText,
   Avatar,
   ListItemAvatar,
-  ListItemSecondaryAction,
   Button,
   Typography,
   Box,
@@ -20,40 +18,49 @@ import RemoveIcon from '@mui/icons-material/Remove';
 import AddIcon from '@mui/icons-material/Add';
 import {useDispatch, useSelector} from 'react-redux';
 import {
-  selectCartCount,
-  selectCartItems, selectCartTotal,
+  selectCartCount, selectCartDiscount,
+  selectCartItems, selectCartTotal, selectEstimateTotal,
   selectIsCartOpen,
 } from '../Store/Cart/cartSelector.js';
 import {
   addItemToCart,
-  clearItemFromCart, removeItemFromCart,
+  clearItemFromCart, removeItemFromCart, setCartDiscount,
   setIsCartOpen, updateItemToCart,
 } from '../Store/Cart/cartAction.js';
+import {useState} from 'react';
 
-function Cart({ setCartItems }) {
+function Cart() {
+
+  const [couponCode, setCouponCode] = useState('');
+  const [isInvalidCoupon, setIsInvalidCoupon] = useState(false);
 
   const dispatch = useDispatch();
-
   const toggleIsCartOpen = () => dispatch(setIsCartOpen(!isCartOpen));
 
   const isCartOpen = useSelector(selectIsCartOpen);
   const cartCount = useSelector(selectCartCount);
   const cartItems = useSelector(selectCartItems);
   const cartTotal = useSelector(selectCartTotal);
+  const cartDiscount = useSelector(selectCartDiscount);
+  const estimateTotal = useSelector(selectEstimateTotal);
 
-  const handleUpdateQuantity = (productId, newQuantity) => {
-    if (newQuantity < 0) return;
-
-    setCartItems(currentItems =>
-      currentItems.map(item =>
-        item.id === productId ? { ...item, quantity: newQuantity } : item
-      )
-    );
-  };
-
-  const handleRemoveItem = (productId) => {
-    dispatch(clearItemFromCart())
-  };
+  const handleCouponApply = async () => {
+    try {
+      const response = await fetch(`http://localhost:3000/coupon/getByCode/${couponCode}`, {
+        method: 'GET',
+      });
+      const body = await response.json();
+      if (body.res === 'Invalid Coupon!') {
+        setIsInvalidCoupon(true);
+        dispatch(setCartDiscount(0));
+      } else {
+        setIsInvalidCoupon(false);
+        dispatch(setCartDiscount(body.discountValue));
+      }
+    } catch (error) {
+      console.error('Error fetching coupon data:', error);
+    }
+  }
 
   return (
     <Dialog open={isCartOpen} onClose={toggleIsCartOpen} fullWidth={true}
@@ -118,7 +125,9 @@ function Cart({ setCartItems }) {
                       inputProps={{ min: 1, style: { textAlign: 'center' } }}
                       onChange={(event) => {
                         event.preventDefault();
-                        dispatch(updateItemToCart(cartItems, item, parseInt(event.target.value)));
+                        if (!event.target.value === false) {
+                          dispatch(updateItemToCart(cartItems, item, parseInt(event.target.value)));
+                        }
                       }}
                       sx={{ width: '40px' }}
                     />
@@ -141,21 +150,29 @@ function Cart({ setCartItems }) {
           </ListItem>
         ))}
       </List>
+      {isInvalidCoupon && (
+        <span style={{
+          'color': 'red',
+          'margin': '0.5rem'
+        }}>Invalid Coupon!</span>
+      )}
       <Box component="form" sx={{ mt: 2 }}>
         <TextField
           fullWidth
           label="Apply Discount Code"
+          value={couponCode}
+          onChange={(e) => setCouponCode(e.target.value)}
           InputProps={{
-            endAdornment: <Button variant="contained">Apply</Button>,
+            endAdornment: <Button variant="contained" onClick={handleCouponApply}>Apply</Button>,
           }}
         />
       </Box>
       {/* Add other cart summary details */}
       <Box sx={{ mt: 2 }}>
         <Typography variant="body1">Subtotal: ${cartTotal}</Typography>
-        <Typography variant="body1">Tax: $49.90</Typography>
-        <Typography variant="body1">Discount: -$20.00</Typography>
-        <Typography variant="h6">Estimated total: $429.10</Typography>
+        <Typography variant="body1">Tax: $0</Typography>
+        <Typography variant="body1">Discount: -${cartDiscount}</Typography>
+        <Typography variant="h6">Estimated total: ${estimateTotal}</Typography>
       </Box>
       <Box sx={{ display: 'flex', justifyContent: 'center', mt: 3 }}>
         <Button variant="contained" color="primary" size="large">
