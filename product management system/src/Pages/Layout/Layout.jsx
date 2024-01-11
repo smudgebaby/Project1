@@ -93,10 +93,13 @@ const Layout = ({ status, title, description, buttonText, additionalLinks, isVal
                   >{passwordShow ? 'Hide' : 'Show'}</button>
                 </div>
                 <p className='invalid-warning'>{!isValidPassword(password) && 'Invalid Password Input!'}</p>
+                <p className='invalid-warning'>{!isValidPassword(password) && 
+                  'Password must contain at least 1 lower case letter, 1 upper case letter, and 1 numeric character!'}
+                </p>
               </div>
             }
 
-            <button type="submit" className={`${status}-button`}>
+            <button type="submit" className={`${status}-button`} disabled={(!isValidPassword(password)) || (!isValidEmail(email))}>
               {buttonText}
             </button>
           </form>
