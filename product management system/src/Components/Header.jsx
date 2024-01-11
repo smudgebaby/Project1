@@ -58,7 +58,7 @@ function Header() {
   return (
     <header>
       <div className='header-content'>
-        <h1>M<span>anagement </span><span>Chuwa</span></h1>
+        <Link to='/' className='header-link'><h1>M<span>anagement </span><span>Chuwa</span></h1></Link>
         <SearchBox className='search-box' />
         <div className='menu-content'>
           <div className='menu-item'>
@@ -84,7 +84,7 @@ function Header() {
             </SvgIcon>
             <a>${cartTotal}</a>
           </div>
-          <CartDetail cartItems={cartItems} setCartItems={setCartItems} />
+          <CartDetail />
         </div>
       </div>
     </header>

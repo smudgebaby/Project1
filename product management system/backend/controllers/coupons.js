@@ -26,7 +26,7 @@ const getCoupon = async (req, res) => {
   try {
     const coupon = await Coupon.findOne({ code: req.params.code });
     if (!coupon) {
-      return res.status(404).send();
+      return res.send({res: 'Invalid Coupon!'});
     }
     res.send(coupon);
   } catch (error) {
