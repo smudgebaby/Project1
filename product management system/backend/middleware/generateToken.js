@@ -6,7 +6,7 @@ function generateToken(user) {
         email: user.email
     }
 
-    const secretKey = 'SECRET_KEY';
+    const secretKey = process.env.JWT_SECRET_KEY;
 
     const options = {
         expiresIn: '2h'

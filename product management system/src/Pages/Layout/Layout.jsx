@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import {signInUser, signUpUser, ResetPassword} from '../../Utils/backendUtil.js';
 import {useDispatch} from 'react-redux';
 import {setCurrentUser} from '../../Store/User/userAction.js';
+import { useNavigate } from "react-router";
 
 import './Layout.css';
 
@@ -11,6 +12,7 @@ const Layout = ({ status, title, description, buttonText, additionalLinks, isVal
   const [password, setPassword] = useState('');
   const [passwordShow, setPasswordShow] = useState(false);
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const handleTogglePasswordShow = () => {
     setPasswordShow(!passwordShow);
@@ -32,16 +34,28 @@ const Layout = ({ status, title, description, buttonText, additionalLinks, isVal
   };
 
   const handleSignUp = async () => {
-    await signUpUser(email, password);
+    const user = await signUpUser(email, password);
+    if(user) {
+      navigate('/signin')
+    } else {
+      alert('Error signing up');
+    }
+    
   }
 
   const handleSignIn = async () => {
     const user = await signInUser(email, password);
-    dispatch(setCurrentUser(user));
+    if(user) {
+      dispatch(setCurrentUser(user));
+      navigate('/')
+    } else {
+      alert('Error signing in');
+    }
   }
 
   const handleResetPassword = async () => {
     await ResetPassword(email);
+    navigate('/confirmation')
   }
 
   return (
