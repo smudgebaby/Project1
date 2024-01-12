@@ -1,8 +1,9 @@
 import { useState } from 'react';
 import PropTypes from 'prop-types';
-import {signInUser} from '../../Utils/backendUtil.js';
+import {signInUser, signUpUser, ResetPassword} from '../../Utils/backendUtil.js';
 import {useDispatch} from 'react-redux';
 import {setCurrentUser} from '../../Store/User/userAction.js';
+import { useNavigate } from "react-router";
 
 import './Layout.css';
 
@@ -11,6 +12,7 @@ const Layout = ({ status, title, description, buttonText, additionalLinks, isVal
   const [password, setPassword] = useState('');
   const [passwordShow, setPasswordShow] = useState(false);
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const handleTogglePasswordShow = () => {
     setPasswordShow(!passwordShow);
@@ -32,16 +34,28 @@ const Layout = ({ status, title, description, buttonText, additionalLinks, isVal
   };
 
   const handleSignUp = async () => {
-
+    const user = await signUpUser(email, password);
+    if(user) {
+      navigate('/signin')
+    } else {
+      alert('Error signing up');
+    }
+    
   }
 
   const handleSignIn = async () => {
-    const user = await signInUser();
-    dispatch(setCurrentUser(user));
+    const user = await signInUser(email, password);
+    if(user) {
+      dispatch(setCurrentUser(user));
+      navigate('/')
+    } else {
+      alert('Error signing in');
+    }
   }
 
   const handleResetPassword = async () => {
-
+    await ResetPassword(email);
+    navigate('/confirmation')
   }
 
   return (
@@ -79,10 +93,13 @@ const Layout = ({ status, title, description, buttonText, additionalLinks, isVal
                   >{passwordShow ? 'Hide' : 'Show'}</button>
                 </div>
                 <p className='invalid-warning'>{!isValidPassword(password) && 'Invalid Password Input!'}</p>
+                <p className='invalid-warning'>{!isValidPassword(password) && 
+                  'Password must contain at least 1 lower case letter, 1 upper case letter, and 1 numeric character!'}
+                </p>
               </div>
             }
 
-            <button type="submit" className={`${status}-button`}>
+            <button type="submit" className={`${status}-button`} disabled={(!isValidPassword(password)) || (!isValidEmail(email))}>
               {buttonText}
             </button>
           </form>
