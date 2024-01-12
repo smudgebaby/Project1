@@ -95,8 +95,8 @@ function Cart() {
               <Grid item xs = {3}>
                 <ListItemAvatar>
                 <Avatar src={item.imageUrl} alt={item.name} sx={{ 
-                  width: 100,
-                  height: 100, 
+                  width: 'auto',
+                  height: 'auto', 
                   borderRadius: 0,
                   mr:1
                   

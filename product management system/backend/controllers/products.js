@@ -47,10 +47,55 @@ const updateProduct = async (req, res) => {
   }
 };
 
+const getPage = async (req, res) =>{
+  try {
+    const sortParam = req.params.sort;
+    const page = parseInt(req.params.page) || 1;
+    // const limit = parseInt(req.query.limit) || 10; // Default to 10 items per page
+    const limit = 10;
+    const skip = (page - 1) * limit;
+    console.log(sortParam, page);
+    let sortCriteria = {};
+    switch(sortParam) {
+      case 'newest':
+        sortCriteria = { createdAt: -1 };
+        break;
+      case 'lastUpdate':
+        sortCriteria = { updatedAt: -1 };
+        break;
+      case 'priceLowToHigh':
+        sortCriteria = { price: 1 };
+        break;
+      case 'priceHighToLow':
+        sortCriteria = { price: -1 };
+        break;
+      default:
+        sortCriteria = { createdAt: -1 }; // Default sorting
+    }
+
+    const products = await Product.find()
+                                  .sort(sortCriteria)
+                                  .skip(skip)
+                                  .limit(limit);
+
+    // Optionally, return the total number of products for pagination purposes
+    const totalProducts = await Product.countDocuments();
+
+    res.status(200).json({
+      products,
+      totalProducts,
+      totalPages: Math.ceil(totalProducts / limit),
+      currentPage: page
+    });
+  } catch (error) {
+    res.status(500).send(error);
+  }
+}
 
 export default {
   updateProduct,
   getProduct,
   getAllProducts,
-  createProduct
+  createProduct,
+  getPage
 }
