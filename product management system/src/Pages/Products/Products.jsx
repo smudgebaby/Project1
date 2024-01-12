@@ -171,31 +171,31 @@ function Products(){
                 </Box>
                 <Grid container pt= {isMobile ? 0: 0} spacing={4}>
                     {products.map((product) => (
-                        <Grid item xs={12} sm={6} md={4} lg= {isMobile ? 12: 12/5} key={product.id}>
-                        <Card>
-                        <CardMedia
-                            component="img"
-                            image={product.image}
-                            alt={product.name}
-                            sx={{ mt: 1, mr: 1, mb: 1, ml: 1, width:'92%' }}
-                            />
-                        <CardContent sx={{mt: -2, mb:-2}}>
-                        <Typography gutterBottom variant="body2" color="text.secondary" component="div">
-                            {product.name}
-                        </Typography>
-                        <Typography variant="h5" sx={{ 
-                            fontWeight: 'bold' 
-                        }}>
-                            {formatPrice(product.price)}
-                        </Typography>
-                        </CardContent>
-                        <CardActions>
-                        <Box sx={{display: 'flex', justifyContent: 'space-between',  gap: 1, mb:1}}>
-                            <Button variant="contained" sx={{width: '82px', ml:0.5} } onClick={() => dispatch(addItemToCart(cartItems, product))}>Add</Button>
-                            <Button variant="outlined" sx={{width: '82px'}} size="small">Edit</Button>
-                        </Box>
-                        </CardActions>
-                        </Card>
+                        <Grid item xs={12} sm={6} md={4} lg= {isMobile ? 12: 12/5} key={product._id}>
+                            <Card>
+                                <CardMedia
+                                    component="img"
+                                    image={product.image}
+                                    alt={product.name}
+                                    sx={{ mt: 1, mr: 1, mb: 1, ml: 1, width:'92%' }}
+                                    />
+                                <CardContent sx={{mt: -2, mb:-2}}>
+                                    <Typography gutterBottom variant="body2" color="text.secondary" component="div">
+                                        {product.name}
+                                    </Typography>
+                                    <Typography variant="h5" sx={{ 
+                                        fontWeight: 'bold' 
+                                    }}>
+                                        {formatPrice(product.price)}
+                                    </Typography>
+                                </CardContent>
+                                <CardActions>
+                                <Box sx={{display: 'flex', justifyContent: 'space-between',  gap: 1, mb:1}}>
+                                    <Button variant="contained" sx={{width: '82px', ml:0.5} } onClick={() => dispatch(addItemToCart(cartItems, product))}>Add</Button>
+                                    <Button variant="outlined" sx={{width: '82px'}} size="small">Edit</Button>
+                                </Box>
+                                </CardActions>
+                            </Card>
                         </Grid>
                     ))}
                 </Grid>
