@@ -1,4 +1,4 @@
-import {useState} from 'react';
+import {useState, useEffect} from 'react';
 import {
     Button,
     Card, CardMedia, CardContent, CardActions,
@@ -11,6 +11,7 @@ import {
 import {addItemToCart} from '../../Store/Cart/cartAction.js';
 import {useDispatch, useSelector} from 'react-redux';
 import {selectCartItems} from '../../Store/Cart/cartSelector.js';
+import { useNavigate } from 'react-router-dom';
 
 function formatPrice(price) {
 return new Intl.NumberFormat('en-US', {
@@ -25,80 +26,111 @@ function Products(){
     const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
     const [sort, setSort] = useState("low-high");
     const [products, setProducts] = useState([
-        {
-            id: 1,
-            name: 'Apple Iphone 11, 128G',
-            price: 499,
-            imageUrl: '/1.png',
+        // {
+        //     id: 1,
+        //     name: 'Apple Iphone 11, 128G',
+        //     price: 499,
+        //     imageUrl: '/1.png',
 
-        },
-        {
-            id: 2,
-            name: 'Apple Iphone 11, 128G',
-            price: 499,
-            imageUrl: '/2.png',
-        },
-        {
-            id: 3,
-            name: 'Apple Iphone 11, 128G',
-            price: 499,
-            imageUrl: '/3.png',
-        },
-        {
-            id: 4,
-            name: 'Apple Iphone 11, 128G',
-            price: 499,
-            imageUrl: '/4.png',
+        // },
+        // {
+        //     id: 2,
+        //     name: 'Apple Iphone 11, 128G',
+        //     price: 499,
+        //     imageUrl: '/2.png',
+        // },
+        // {
+        //     id: 3,
+        //     name: 'Apple Iphone 11, 128G',
+        //     price: 499,
+        //     imageUrl: '/3.png',
+        // },
+        // {
+        //     id: 4,
+        //     name: 'Apple Iphone 11, 128G',
+        //     price: 499,
+        //     imageUrl: '/4.png',
 
-        },
-        {
-            id: 5,
-            name: 'Apple Iphone 11, 128G',
-            price: 499,
-            imageUrl: '/5.png',
+        // },
+        // {
+        //     id: 5,
+        //     name: 'Apple Iphone 11, 128G',
+        //     price: 499,
+        //     imageUrl: '/5.png',
 
-        },
-        {
-            id: 6,
-            name: 'Apple Iphone 11, 128G',
-            price: 499,
-            imageUrl: '/6.png',
+        // },
+        // {
+        //     id: 6,
+        //     name: 'Apple Iphone 11, 128G',
+        //     price: 499,
+        //     imageUrl: '/6.png',
 
-        },
-        {
-            id: 7,
-            name: 'Apple Iphone 11, 128G',
-            price: 499,
-            imageUrl: '/7.png',
+        // },
+        // {
+        //     id: 7,
+        //     name: 'Apple Iphone 11, 128G',
+        //     price: 499,
+        //     imageUrl: '/7.png',
 
-        },
-        {
-            id: 8,
-            name: 'Apple Iphone 11, 128G',
-            price: 499,
-            imageUrl: '/8.png',
+        // },
+        // {
+        //     id: 8,
+        //     name: 'Apple Iphone 11, 128G',
+        //     price: 499,
+        //     imageUrl: '/8.png',
 
-        },
-        {
-            id: 9,
-            name: 'Apple Iphone 11, 128G',
-            price: 499,
-            imageUrl: '/9.png',
+        // },
+        // {
+        //     id: 9,
+        //     name: 'Apple Iphone 11, 128G',
+        //     price: 499,
+        //     imageUrl: '/9.png',
 
-        },
-        {
-            id: 10,
-            name: 'Apple Iphone 11, 128G',
-            price: 499,
-            imageUrl: '/10.png',
+        // },
+        // {
+        //     id: 10,
+        //     name: 'Apple Iphone 11, 128G',
+        //     price: 499,
+        //     imageUrl: '/10.png',
 
-        },
+        // },
       
     ]);
-    function handleAddProduct(){
-        return;
-    }
-    
+    const [currentPage, setCurrentPage] = useState(1);
+    const [totalPages, setTotalPages] = useState(0);
+
+    const fetchProducts = async () => {
+        const sortCriteria = sort === 'low-high' ? 'priceLowToHigh' : sort === 'high-low' ? 'priceHighToLow' : 'newest';
+        try {
+            console.log(sortCriteria);
+            const response = await fetch(`http://localhost:3000/product/page/${currentPage}/${sortCriteria}`);
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            const data = await response.json();
+            setProducts(data.products);
+            setTotalPages(data.totalPages);
+            console.log(data);
+        } catch (error) {
+            console.error('There has been a problem with your fetch operation:', error);
+        }
+    };
+
+    useEffect(() => {
+        
+        fetchProducts();
+    }, [sort, currentPage]);
+
+    const handlePageChange = (event, value) => {
+        setCurrentPage(value);
+    };
+
+    const navigate = useNavigate();
+
+    const handleAddProduct = () => {
+        navigate('/create');
+    };
+
     const handleSortChange = (event) => {
         setSort(event.target.value);
     }
@@ -143,7 +175,7 @@ function Products(){
                         <Card>
                         <CardMedia
                             component="img"
-                            image={product.imageUrl}
+                            image={product.image}
                             alt={product.name}
                             sx={{ mt: 1, mr: 1, mb: 1, ml: 1, width:'92%' }}
                             />
@@ -169,11 +201,13 @@ function Products(){
                 </Grid>
                 <Box sx={{ display: 'flex', justifyContent: 'flex-end', width: '100%' }}>
                 <Pagination 
-                    count={5}
+                    count={totalPages}
                     color="primary" 
                     size="large"
                     variant="outlined"
                     shape="rounded"
+                    page={currentPage}
+                    onChange={handlePageChange}
                     sx={{ width: 'auto' , mt:5}} 
                 />
                 </Box>    
