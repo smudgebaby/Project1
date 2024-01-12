@@ -9,7 +9,7 @@ export const signUpUser = async (email, password) => {
       body: JSON.stringify({ email, password })
     });
 
-    return await response.json();
+    return response.ok;
     
   } catch (error) {
     console.error('Error signing up:', error);
@@ -56,7 +56,7 @@ export const ResetPassword = async (email) => {
       body: JSON.stringify({ email })
     });
 
-    return await response.json();
+    return response.ok;
     
   } catch (error) {
     console.error('Error reseting password:', error);
