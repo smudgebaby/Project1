@@ -34,18 +34,17 @@ const Layout = ({ status, title, description, buttonText, additionalLinks, isVal
   };
 
   const handleSignUp = async () => {
-    const user = await signUpUser(email, password);
-    if(user) {
+    const ok = await signUpUser(email, password);
+    if(ok) {
       navigate('/signin')
     } else {
       alert('Error signing up');
     }
-    
   }
 
   const handleSignIn = async () => {
     const user = await signInUser(email, password);
-    if(user) {
+    if(user.token) {
       dispatch(setCurrentUser(user));
       navigate('/')
     } else {
@@ -54,8 +53,12 @@ const Layout = ({ status, title, description, buttonText, additionalLinks, isVal
   }
 
   const handleResetPassword = async () => {
-    await ResetPassword(email);
-    navigate('/confirmation')
+    const ok = await ResetPassword(email);
+    if(ok) {
+      navigate('/confirmation')
+    } else {
+      alert('Please sign up first');
+    }
   }
 
   return (

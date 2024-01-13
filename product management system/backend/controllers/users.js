@@ -34,7 +34,7 @@ const signIn = async (req, res) => {
     }
 
     if(user.password !== password) {
-      return res.statue(400).json({ message: 'Password not match'})
+      return res.status(400).json({ message: 'Password not match'})
     }
 
     const token = generateToken(user)

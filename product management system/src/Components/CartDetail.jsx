@@ -90,7 +90,7 @@ function Cart() {
     <DialogContent>
       <List sx={{ maxHeight: '400px', overflowY: 'auto' }}>
         {cartItems.map((item, index) => (
-          <ListItem key={item.id} sx={{ flexDirection: 'column', alignItems: 'flex-start' }}>
+          <ListItem key={item._id} sx={{ flexDirection: 'column', alignItems: 'flex-start' }}>
             <Grid container spacing={2} alignItems="flex">
               <Grid item xs = {3}>
                 <ListItemAvatar>
