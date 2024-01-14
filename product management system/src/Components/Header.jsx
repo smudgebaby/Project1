@@ -10,42 +10,9 @@ import {
 } from '../Store/Cart/cartSelector.js';
 import CartDetail from './CartDetail';
 import {setIsCartOpen} from '../Store/Cart/cartAction.js';
-import {useState} from 'react';
-import {userSlice} from '../Store/userSlice.js';
+import {setCurrentUser} from '../Store/User/userAction.js';
 
 function Header() {
-  const [cartItems, setCartItems] = useState([
-    {
-      id: 1,
-      name: 'Apple Iphone 11, 128G',
-      price: 499,
-      imageUrl: '/1.png',
-      quantity:0
-
-    },
-    {
-      id: 2,
-      name: 'Apple Iphone 11, 128G',
-      price: 499,
-      imageUrl: '/2.png',
-      quantity:0
-    },
-    {
-      id: 3,
-      name: 'Apple Iphone 11, 128G',
-      price: 499,
-      imageUrl: '/3.png',
-      quantity:0
-    },
-    {
-      id: 4,
-      name: 'Apple Iphone 11, 128G',
-      price: 499,
-      imageUrl: '/4.png',
-      quantity:0
-    },
-
-  ]);
 
   const dispatch = useDispatch();
 
@@ -69,12 +36,12 @@ function Header() {
                 <path d="M21.75 17.375L23.9802 21.575L28.75 22.1546L25.25 25.3088L25.95 29.975L21.75 27.35L17.55 29.975L18.25 25.3088L14.75 22.1546L19.65 21.575L21.75 17.375Z" fill="#FCE944"/>
               </svg>
             </SvgIcon>
-            {currentUser ? (<a onClick={() => {
-              dispatch(userSlice.actions.setCurrentUser(null));
+            {currentUser ? (<a className='pointer-button' onClick={() => {
+              dispatch(setCurrentUser(null));
             }
             }>Sign Out</a>) : (<Link to='/signin'>Sign In</Link>)}
           </div>
-          <div className='menu-item' onClick={toggleIsCartOpen}>
+          <div className='menu-item pointer-button' onClick={toggleIsCartOpen}>
             <SvgIcon>
               <svg width="30" height="30" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M9.375 28.125C10.4105 28.125 11.25 27.2855 11.25 26.25C11.25 25.2145 10.4105 24.375 9.375 24.375C8.33947 24.375 7.5 25.2145 7.5 26.25C7.5 27.2855 8.33947 28.125 9.375 28.125Z" fill="#F9FAFB"/>

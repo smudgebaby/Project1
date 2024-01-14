@@ -42,6 +42,10 @@ header {
     grid-column: col-start 1 / span 3;
 }
 
+.pointer-button:hover {
+    cursor: pointer;
+}
+
 @media (max-width: 950px) {
     .header-content {
         height: 8rem;

@@ -65,13 +65,17 @@ export const ResetPassword = async (email) => {
 
 
 // retrieve auth token
-export const getAuthToken = () => {
-  const cookies = document.cookie.split(';');
-  const authTokenCookie = cookies.find(cookie => cookie.trim().startsWith('authToken='));
-
-  if (authTokenCookie) {
-    return authTokenCookie.split('=')[1];
-  }
-
-  return null;
-};
+// export const verifyAuthToken = () => {
+//   const cookies = document.cookie.split(';');
+//   const authTokenCookie = cookies.find(cookie => cookie.trim().startsWith('authToken='));
+//
+//   if (authTokenCookie) {
+//     const authToken = authTokenCookie.split('=')[1];
+//     try {
+//       const decoded = jwt.verify(authToken, process.env.JWT_SECRET_KEY);
+//       console.log(decoded);
+//     } catch(err) {
+//       console.error('Invalid or expired token:', err.message);
+//     }
+//   }
+// };
