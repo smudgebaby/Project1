@@ -38,7 +38,8 @@ const signIn = async (req, res) => {
     }
 
     const token = generateToken(user)
-    res.status(200).json({ message: 'Sign in successful', token})
+    const role = user.role === 'user' ? 1 : 2;
+    res.status(200).json({ message: 'Sign in successful', token, role})
 
   } catch (err) {
     console.log(err.message);

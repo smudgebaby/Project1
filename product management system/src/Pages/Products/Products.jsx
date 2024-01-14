@@ -12,6 +12,7 @@ import {addItemToCart} from '../../Store/Cart/cartAction.js';
 import {useDispatch, useSelector} from 'react-redux';
 import {selectCartItems} from '../../Store/Cart/cartSelector.js';
 import { useNavigate } from 'react-router-dom';
+import {selectCurrentUser} from '../../Store/User/userSelector.js';
 
 function formatPrice(price) {
 return new Intl.NumberFormat('en-US', {
@@ -117,7 +118,6 @@ function Products(){
     };
 
     useEffect(() => {
-        
         fetchProducts();
     }, [sort, currentPage]);
 
@@ -137,6 +137,7 @@ function Products(){
 
     const dispatch = useDispatch();
     const cartItems = useSelector(selectCartItems);
+    const currentUser = useSelector(selectCurrentUser);
 
     return(
         <>
@@ -164,9 +165,9 @@ function Products(){
                         <MenuItem value="high-low">Price: high to low</MenuItem>
                         </Select>
 
-                        <Button variant="contained" color="primary" sx= {{height:40, mt:-0.5}} onClick={handleAddProduct}>
+                        {currentUser.role === 2 && <Button variant="contained" color="primary" sx= {{height:40, mt:-0.5}} onClick={handleAddProduct}>
                             Add Product
-                        </Button>
+                        </Button>}
                     </Box>
                 </Box>
                 <Grid container pt= {isMobile ? 0: 0} spacing={4}>
@@ -183,8 +184,8 @@ function Products(){
                                     <Typography gutterBottom variant="body2" color="text.secondary" component="div">
                                         {product.name}
                                     </Typography>
-                                    <Typography variant="h5" sx={{ 
-                                        fontWeight: 'bold' 
+                                    <Typography variant="h5" sx={{
+                                        fontWeight: 'bold'
                                     }}>
                                         {formatPrice(product.price)}
                                     </Typography>
@@ -192,7 +193,7 @@ function Products(){
                                 <CardActions>
                                 <Box sx={{display: 'flex', justifyContent: 'space-between',  gap: 1, mb:1}}>
                                     <Button variant="contained" sx={{width: '82px', ml:0.5} } onClick={() => dispatch(addItemToCart(cartItems, product))}>Add</Button>
-                                    <Button variant="outlined" sx={{width: '82px'}} size="small">Edit</Button>
+                                    {currentUser.role === 2 && <Button variant="outlined" sx={{width: '82px'}} size="small">Edit</Button>}
                                 </Box>
                                 </CardActions>
                             </Card>
