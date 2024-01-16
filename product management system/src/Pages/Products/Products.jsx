@@ -165,7 +165,7 @@ function Products(){
                         <MenuItem value="high-low">Price: high to low</MenuItem>
                         </Select>
 
-                        {currentUser.role === 2 && <Button variant="contained" color="primary" sx= {{height:40, mt:-0.5}} onClick={handleAddProduct}>
+                        {currentUser && currentUser.role === 2 && <Button variant="contained" color="primary" sx= {{height:40, mt:-0.5}} onClick={handleAddProduct}>
                             Add Product
                         </Button>}
                     </Box>
@@ -193,7 +193,7 @@ function Products(){
                                 <CardActions>
                                 <Box sx={{display: 'flex', justifyContent: 'space-between',  gap: 1, mb:1}}>
                                     <Button variant="contained" sx={{width: '82px', ml:0.5} } onClick={() => dispatch(addItemToCart(cartItems, product))}>Add</Button>
-                                    {currentUser.role === 2 && <Button variant="outlined" sx={{width: '82px'}} size="small">Edit</Button>}
+                                    {currentUser && currentUser.role === 2 && <Button variant="outlined" sx={{width: '82px'}} size="small">Edit</Button>}
                                 </Box>
                                 </CardActions>
                             </Card>
