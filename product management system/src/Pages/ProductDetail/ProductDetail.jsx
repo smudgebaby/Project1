@@ -55,8 +55,8 @@ function ProductDetail() {
             {product.quantity === 0 ? <Chip label="Out of Stock" sx={{m: 1, backgroundColor: 'pink'}}/> : <Chip label="In Stock" sx={{m: 1, backgroundColor: 'green', color: 'white'}}/>}
           </Typography>
           <Box sx={matches ? {display: "flex", gap: 2} : {display: "flex", justifyContent: "space-evenly"}}>
-            <Button variant="contained" color="primary" sx={{width: 1/3} } onClick={() => dispatch(addItemToCart(cartItems, product))}>Add Product</Button>
-            {currentUser && currentUser.role === 2 && <Button variant="outlined" sx={{width: 1/3}} onClick={() => handleEditProduct(product)}>Edit</Button>}
+            <Button variant="contained" color="primary" sx={{width: '6rem'} } onClick={() => dispatch(addItemToCart(cartItems, product))}>Add Product</Button>
+            {currentUser && currentUser.role === 2 && <Button variant="outlined" sx={{width: '6rem'}} onClick={() => handleEditProduct(product)}>Edit</Button>}
           </Box>
         </CardContent>
       </Card>
