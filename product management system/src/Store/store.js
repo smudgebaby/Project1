@@ -10,15 +10,17 @@ import createExpireTransform from 'redux-persist-transform-expire';
 const expireTransform = createExpireTransform({
   expireKey: 'expiresIn',
   defaultState: {
-    currentUser: null,
-    expiresIn: null
+    user: {
+      currentUser: null,
+      expiresIn: null
+    },
   },
 });
 
 const persistConfig = {
   key: 'root',
   storage,
-  whitelist: ['user'],
+  whitelist: ['user', 'cart'],
   transforms: [expireTransform]
 };
 
