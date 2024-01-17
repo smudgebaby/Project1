@@ -18,22 +18,7 @@ const userSchema = new mongoose.Schema({
     type: String,
     enum: ['user', 'manager'],
     default: 'user'
-  },
-  cart: [{
-    product: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: 'Product'
-    },
-    quantity: {
-      type: Number,
-      required: true,
-      min: 1
-    },
-    appliedCoupon: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: 'Coupon'
-    }
-  }]
+  }
 }, { timestamps: true });
 
 

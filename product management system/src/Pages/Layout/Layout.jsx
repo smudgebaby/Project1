@@ -45,7 +45,7 @@ const Layout = ({ status, title, description, buttonText, additionalLinks, isVal
   const handleSignIn = async () => {
     const user = await signInUser(email, password);
     if(user.token) {
-      dispatch(setCurrentUser(user));
+      dispatch(setCurrentUser({currentUser: user, expiresIn: new Date().getTime() + 60 * 1000}));
       navigate('/')
     } else {
       alert('Error signing in');
