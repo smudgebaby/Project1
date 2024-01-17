@@ -36,3 +36,10 @@
     margin: 20px 2rem 20px;
   }
 }
+
+.confirmation .close-button {
+  margin-top: 0;
+  margin-right: 0;
+  position: relative;
+  top: -7em;
+}

@@ -4,7 +4,7 @@ import './LoadSpinner.css'
 function LoadSpinner() {
 	return (
 		<div className="load-container">
-			<RotateLoader color="#5b6af5" speedMultiplier={0.5} />
+			<RotateLoader color="#1976d2" speedMultiplier={0.5} />
 		</div>
 	)
 }

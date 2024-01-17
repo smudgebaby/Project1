@@ -20,6 +20,9 @@ import {
     removeItemFromCart,
      updateItemToCart,
   } from '../../Store/Cart/cartAction.js';
+import LoadSpinner from '../../Components/LoadSpinner.jsx';
+import './Products.css'
+
 function formatPrice(price) {
 return new Intl.NumberFormat('en-US', {
     style: 'currency',
@@ -34,6 +37,7 @@ function Products({searchInfo, products, setProducts}){
     const [sort, setSort] = useState("low-high");
     const [currentPage, setCurrentPage] = useState(1);
     const [totalPages, setTotalPages] = useState(0);
+    const [loading, setLoading] = useState(true);
 
     const fetchProducts = async () => {
         const sortCriteria = sort === 'low-high' ? 'priceLowToHigh' : sort === 'high-low' ? 'priceHighToLow' : 'newest';
@@ -49,6 +53,8 @@ function Products({searchInfo, products, setProducts}){
             console.log(data);
         } catch (error) {
             console.error('There has been a problem with your fetch operation:', error);
+        } finally {
+        setLoading(false);
         }
     };
     const handleDeleteProduct = async (productId) => {
@@ -128,6 +134,7 @@ function Products({searchInfo, products, setProducts}){
                         </Button>}
                     </Box>
                 </Box>
+                {loading? <LoadSpinner /> : (
                 <Grid container pt= {isMobile ? 0: 0} spacing={4}>
                     {products.map((product) => {
                     
@@ -196,6 +203,7 @@ function Products({searchInfo, products, setProducts}){
                 })}
                 
                 </Grid>
+                )}
                 <Box sx={{ display: 'flex', justifyContent: 'flex-end', width: '100%' }}>
                 <Pagination 
                     count={totalPages}
