@@ -1,6 +1,6 @@
 import './Confirmation.css'
 import ForwardToInboxIcon from '@mui/icons-material/ForwardToInbox';
-import { useNavigate } from "react-router";
+import { useNavigate } from "react-router-dom";
 
 function Confirmation() {
   const navigate = useNavigate();
