@@ -24,6 +24,9 @@ function App() {
 
   const user = useSelector(selectCurrentUser);
 
+  const [products, setProducts] = useState([]);
+  const [searchInfo, setSearchInfo] = useState('*');
+
   useEffect(() => {
     let isSubscribed = true;
 
@@ -48,7 +51,7 @@ function App() {
 
   return (
     <Router>
-      <Header />
+      <Header setSearchInfo={setSearchInfo}/>
       <Container maxWidth="xl" sx={{minHeight: '88vh', display: "flex", justifyContent: "center", alignItems: "center"}}>
         <Routes>
           <Route path='/signin' element={<SignIn />} />
@@ -56,7 +59,8 @@ function App() {
           <Route path='/resetpassword' element={<ResetPassword />} />
           <Route path='/confirmation' element={<Confirmation />} />
           <Route path='/create' element={<CreateProduct />} />
-          <Route path='/' element={<Products />} />
+          <Route path="/edit" element={<CreateProduct />} />
+          <Route path='/' element={<Products searchInfo={searchInfo} products={products} setProducts={setProducts}/>} />
           <Route path='/detail' element={<ProductDetail />} />
           <Route path='*' element={<Error />} />
         </Routes>
