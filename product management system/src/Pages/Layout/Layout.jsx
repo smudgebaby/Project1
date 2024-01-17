@@ -3,8 +3,8 @@ import PropTypes from 'prop-types';
 import {signInUser, signUpUser, ResetPassword} from '../../Utils/backendUtil.js';
 import {useDispatch} from 'react-redux';
 import {setCurrentUser} from '../../Store/User/userAction.js';
-import { useNavigate } from "react-router";
 
+import {useNavigate} from 'react-router-dom';
 import './Layout.css';
 
 const Layout = ({ status, title, description, buttonText, additionalLinks, isValidEmail, isValidPassword }) => {
