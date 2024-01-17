@@ -22,89 +22,18 @@ return new Intl.NumberFormat('en-US', {
 }
 
 
-function Products(){
+function Products({searchInfo, products, setProducts}){
     const theme = useTheme();
     const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
     const [sort, setSort] = useState("low-high");
-    const [products, setProducts] = useState([
-        // {
-        //     id: 1,
-        //     name: 'Apple Iphone 11, 128G',
-        //     price: 499,
-        //     imageUrl: '/1.png',
-
-        // },
-        // {
-        //     id: 2,
-        //     name: 'Apple Iphone 11, 128G',
-        //     price: 499,
-        //     imageUrl: '/2.png',
-        // },
-        // {
-        //     id: 3,
-        //     name: 'Apple Iphone 11, 128G',
-        //     price: 499,
-        //     imageUrl: '/3.png',
-        // },
-        // {
-        //     id: 4,
-        //     name: 'Apple Iphone 11, 128G',
-        //     price: 499,
-        //     imageUrl: '/4.png',
-
-        // },
-        // {
-        //     id: 5,
-        //     name: 'Apple Iphone 11, 128G',
-        //     price: 499,
-        //     imageUrl: '/5.png',
-
-        // },
-        // {
-        //     id: 6,
-        //     name: 'Apple Iphone 11, 128G',
-        //     price: 499,
-        //     imageUrl: '/6.png',
-
-        // },
-        // {
-        //     id: 7,
-        //     name: 'Apple Iphone 11, 128G',
-        //     price: 499,
-        //     imageUrl: '/7.png',
-
-        // },
-        // {
-        //     id: 8,
-        //     name: 'Apple Iphone 11, 128G',
-        //     price: 499,
-        //     imageUrl: '/8.png',
-
-        // },
-        // {
-        //     id: 9,
-        //     name: 'Apple Iphone 11, 128G',
-        //     price: 499,
-        //     imageUrl: '/9.png',
-
-        // },
-        // {
-        //     id: 10,
-        //     name: 'Apple Iphone 11, 128G',
-        //     price: 499,
-        //     imageUrl: '/10.png',
-
-        // },
-      
-    ]);
     const [currentPage, setCurrentPage] = useState(1);
     const [totalPages, setTotalPages] = useState(0);
 
     const fetchProducts = async () => {
         const sortCriteria = sort === 'low-high' ? 'priceLowToHigh' : sort === 'high-low' ? 'priceHighToLow' : 'newest';
         try {
-            console.log(sortCriteria);
-            const response = await fetch(`http://localhost:3000/product/page/${currentPage}/${sortCriteria}`);
+            console.log(searchInfo);
+            const response = await fetch(`http://localhost:3000/product/page/${currentPage}/${sortCriteria}/${searchInfo}`);
             if (!response.ok) {
                 throw new Error('Network response was not ok');
             }
@@ -119,7 +48,7 @@ function Products(){
 
     useEffect(() => {
         fetchProducts();
-    }, [sort, currentPage]);
+    }, [sort, currentPage, searchInfo]);
 
     const handlePageChange = (event, value) => {
         setCurrentPage(value);
@@ -134,6 +63,10 @@ function Products(){
     const handleSortChange = (event) => {
         setSort(event.target.value);
     }
+
+    const handleEditProduct = (product) => {
+        navigate('/edit', { state: { product } });
+    };
 
     const dispatch = useDispatch();
     const cartItems = useSelector(selectCartItems);
@@ -178,7 +111,8 @@ function Products(){
                                     component="img"
                                     image={product.image}
                                     alt={product.name}
-                                    sx={{ mt: 1, mr: 1, mb: 1, ml: 1, width:'92%' }}
+                                    sx={{ mt: 1, mr: 1, mb: 1, ml: 1, width:'92%', height: '15rem', cursor: 'pointer' }}
+                                    onClick={() => navigate('detail', { state: { product } })}
                                     />
                                 <CardContent sx={{mt: -2, mb:-2}}>
                                     <Typography gutterBottom variant="body2" color="text.secondary" component="div">
@@ -193,7 +127,7 @@ function Products(){
                                 <CardActions>
                                 <Box sx={{display: 'flex', justifyContent: 'space-between',  gap: 1, mb:1}}>
                                     <Button variant="contained" sx={{width: '82px', ml:0.5} } onClick={() => dispatch(addItemToCart(cartItems, product))}>Add</Button>
-                                    {currentUser && currentUser.role === 2 && <Button variant="outlined" sx={{width: '82px'}} size="small">Edit</Button>}
+                                    {currentUser && currentUser.role === 2 && <Button variant="outlined" sx={{width: '82px'}} size="small" onClick={() => handleEditProduct(product)}>Edit</Button>}
                                 </Box>
                                 </CardActions>
                             </Card>

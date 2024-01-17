@@ -57,7 +57,7 @@ const removeCartItem = (cartItems, cartItemToRemove) => {
 };
 
 const clearCartItem = (cartItems, cartItemToClear) =>
-  cartItems.filter((cartItem) => cartItem._id !== cartItemToClear._id99);
+  cartItems.filter((cartItem) => cartItem._id !== cartItemToClear._id);
 
 export const addItemToCart = (cartItems, productToAdd) => {
   const newCartItems = addCartItem(cartItems, productToAdd);

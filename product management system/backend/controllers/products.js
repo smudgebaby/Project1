@@ -4,7 +4,12 @@ const {Product} = models;
 
 const createProduct = async (req, res) => {
   try {
-    const product = new Product(req.body);
+    const productData = {
+      ...req.body,
+      image: req.file ? req.file.path : undefined
+    };
+
+    const product = new Product(productData);
     await product.save();
     res.status(201).send(product);
   } catch (error) {
@@ -37,7 +42,12 @@ const getProduct = async (req, res) => {
 // Update a product by ID
 const updateProduct = async (req, res) => {
   try {
-    const product = await Product.findByIdAndUpdate(req.params.id, req.body, { new: true });
+    const productData = {
+      ...req.body,
+      image: req.file ? req.file.path : undefined
+    };
+    // console.log(productData);
+    const product = await Product.findByIdAndUpdate(req.params.id, productData, { new: true });
     if (!product) {
       return res.status(404).send('Product not found');
     }
@@ -51,6 +61,7 @@ const getPage = async (req, res) =>{
   try {
     const sortParam = req.params.sort;
     const page = parseInt(req.params.page) || 1;
+    const info = req.params.info;
     // const limit = parseInt(req.query.limit) || 10; // Default to 10 items per page
     const limit = 10;
     const skip = (page - 1) * limit;
@@ -73,10 +84,18 @@ const getPage = async (req, res) =>{
         sortCriteria = { createdAt: -1 }; // Default sorting
     }
 
-    const products = await Product.find()
-                                  .sort(sortCriteria)
-                                  .skip(skip)
-                                  .limit(limit);
+    let products;
+    if (info === '*') {
+      products = await Product.find()
+      .sort(sortCriteria)
+      .skip(skip)
+      .limit(limit);
+    } else {
+      products = await Product.find({'name': {$regex: info, $options: "i"}})
+      .sort(sortCriteria)
+      .skip(skip)
+      .limit(limit);
+    }
 
     // Optionally, return the total number of products for pagination purposes
     const totalProducts = await Product.countDocuments();

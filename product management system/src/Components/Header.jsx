@@ -12,7 +12,7 @@ import CartDetail from './CartDetail';
 import {setIsCartOpen} from '../Store/Cart/cartAction.js';
 import {setCurrentUser} from '../Store/User/userAction.js';
 
-function Header() {
+function Header({setSearchInfo}) {
 
   const dispatch = useDispatch();
 
@@ -26,7 +26,7 @@ function Header() {
     <header>
       <div className='header-content'>
         <Link to='/' className='header-link'><h1>M<span>anagement </span><span>Chuwa</span></h1></Link>
-        <SearchBox className='search-box' />
+        <SearchBox className='search-box' setSearchInfo={setSearchInfo}/>
         <div className='menu-content'>
           <div className='menu-item'>
             <SvgIcon>
