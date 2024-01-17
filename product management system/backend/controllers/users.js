@@ -43,7 +43,6 @@ const signIn = async (req, res) => {
 
   } catch (err) {
     console.log(err.message);
-    console.log('test');
     res.status(500).json({ message: 'Server Error'});
   }
 }
