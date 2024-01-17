@@ -16,6 +16,7 @@ import {useEffect, useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import {setCurrentUser} from './Store/User/userAction.js';
 import {selectCurrentUser} from './Store/User/userSelector.js';
+import  PrivateRoute from './Components/PrivateRoute.jsx'
 
 function App() {
 
@@ -58,8 +59,8 @@ function App() {
           <Route path='/signup' element={<SignUp />} />
           <Route path='/resetpassword' element={<ResetPassword />} />
           <Route path='/confirmation' element={<Confirmation />} />
-          <Route path='/create' element={<CreateProduct />} />
-          <Route path="/edit" element={<CreateProduct />} />
+          <Route path='/create' element={<PrivateRoute> <CreateProduct /> </PrivateRoute> } />
+          <Route path="/edit" element={<PrivateRoute> <CreateProduct /> </PrivateRoute>} />
           <Route path='/' element={<Products searchInfo={searchInfo} products={products} setProducts={setProducts}/>} />
           <Route path='/detail' element={<ProductDetail />} />
           <Route path='*' element={<Error />} />
