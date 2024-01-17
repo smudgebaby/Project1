@@ -111,10 +111,23 @@ const getPage = async (req, res) =>{
   }
 }
 
+const deleteProduct = async (req, res) => {
+  try {
+    const product = await Product.findByIdAndDelete(req.params.id);
+    if (!product) {
+      return res.status(404).send('Product not found');
+    }
+    res.status(200).send({ message: 'Product successfully deleted', deletedProduct: product });
+  } catch (error) {
+    res.status(500).send(error);
+  }
+}
+
 export default {
   updateProduct,
   getProduct,
   getAllProducts,
   createProduct,
+  deleteProduct,
   getPage
 }

@@ -4,16 +4,22 @@ import {
     Card, CardMedia, CardContent, CardActions,
     Container, Box,
     Pagination,
+    IconButton,
     Grid, InputAdornment, InputLabel, MenuItem, Select, styled,
     TextField,
     Typography, useMediaQuery, useTheme,
   } from '@mui/material';
-import {addItemToCart} from '../../Store/Cart/cartAction.js';
+import RemoveIcon from '@mui/icons-material/Remove';
+import AddIcon from '@mui/icons-material/Add';
 import {useDispatch, useSelector} from 'react-redux';
 import {selectCartItems} from '../../Store/Cart/cartSelector.js';
 import { useNavigate } from 'react-router-dom';
 import {selectCurrentUser} from '../../Store/User/userSelector.js';
-
+import {
+    addItemToCart,
+    removeItemFromCart,
+     updateItemToCart,
+  } from '../../Store/Cart/cartAction.js';
 function formatPrice(price) {
 return new Intl.NumberFormat('en-US', {
     style: 'currency',
@@ -43,6 +49,25 @@ function Products({searchInfo, products, setProducts}){
             console.log(data);
         } catch (error) {
             console.error('There has been a problem with your fetch operation:', error);
+        }
+    };
+    const handleDeleteProduct = async (productId) => {
+        try {
+         
+          const response = await fetch(`http://localhost:3000/product/delete/${productId}`, {
+            method: 'DELETE',
+          });
+      
+          if (!response.ok) {
+            throw new Error('Failed to delete the product');
+          }
+      
+          alert('Product successfully deleted.');
+      
+          fetchProducts();
+        } catch (error) {
+          console.error('Error deleting product:', error);
+          alert('Error deleting product');
         }
     };
 
@@ -104,7 +129,13 @@ function Products({searchInfo, products, setProducts}){
                     </Box>
                 </Box>
                 <Grid container pt= {isMobile ? 0: 0} spacing={4}>
-                    {products.map((product) => (
+                    {products.map((product) => {
+                    
+                        const cartItem = cartItems.find(item => item._id === product._id);
+                        const isInCart = cartItem && cartItem.quantity > 0;
+
+                    return (
+                    
                         <Grid item xs={12} sm={6} md={4} lg= {isMobile ? 12: 12/5} key={product._id}>
                             <Card>
                                 <CardMedia
@@ -126,13 +157,44 @@ function Products({searchInfo, products, setProducts}){
                                 </CardContent>
                                 <CardActions>
                                 <Box sx={{display: 'flex', justifyContent: 'space-between',  gap: 1, mb:1}}>
-                                    <Button variant="contained" sx={{width: '82px', ml:0.5} } onClick={() => dispatch(addItemToCart(cartItems, product))}>Add</Button>
-                                    {currentUser && currentUser.role === 2 && <Button variant="outlined" sx={{width: '82px'}} size="small" onClick={() => handleEditProduct(product)}>Edit</Button>}
+                                    {!isInCart ? (
+                                        <Button variant="contained" sx={{ width: currentUser && currentUser.role === 2 ? '75px': '122px'}} onClick={() => dispatch(addItemToCart(cartItems, product))}>Add</Button>
+                                    ) : (
+                                        <Box sx={{ width: currentUser && currentUser.role === 2 ? '75px': '122px',display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 0 }}>
+                                            <IconButton onClick={() => dispatch(removeItemFromCart(cartItems, cartItem))} size="small">
+                                                <RemoveIcon fontSize='small'/>
+                                            </IconButton>
+                                            <TextField
+                                                size="small"
+                                                value={cartItem.quantity}
+                                                inputProps={{ min: 1, style: { textAlign: 'center', padding: '6px 0', fontSize: '0.8rem'} }}
+                                                onChange={(event) => {
+                                                    event.preventDefault();
+                                                    const newQuantity = parseInt(event.target.value);
+                                                    if (newQuantity) {
+                                                        dispatch(updateItemToCart(cartItems, cartItem, newQuantity));
+                                                    }
+                                                }}
+                                                sx={{ width: '30px', '& .MuiInputBase-input': { padding: '6px 0', fontSize: '0.8rem' } }}
+                                            />
+                                            <IconButton onClick={() => dispatch(addItemToCart(cartItems, cartItem))} size="small">
+                                                <AddIcon fontSize='small'/>
+                                            </IconButton>
+                                        </Box>
+                                    )}
+                                    {currentUser && currentUser.role === 2 && (
+                                    <>
+                                        <Button variant="outlined" sx={{width: '75px'}} size="small" onClick={() => handleEditProduct(product)}>Edit</Button>
+                                        <Button variant="outlined" color="error" sx={{ width: '75px' }} size="small" onClick={() => handleDeleteProduct(product._id)}>Delete</Button>
+                                    </>
+                                    )}
                                 </Box>
                                 </CardActions>
                             </Card>
                         </Grid>
-                    ))}
+                    );
+                })}
+                
                 </Grid>
                 <Box sx={{ display: 'flex', justifyContent: 'flex-end', width: '100%' }}>
                 <Pagination 
