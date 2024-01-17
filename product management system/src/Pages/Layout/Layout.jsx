@@ -61,10 +61,15 @@ const Layout = ({ status, title, description, buttonText, additionalLinks, isVal
     }
   }
 
+  const handleClose = () => {
+    navigate('/')
+  }
+
   return (
     <>
       <div className='layout-container'>
         <div className='layout-form-container'>
+          <button className='close-button' onClick={handleClose}></button>
           <h1>{title}</h1>
           {description && <p className="description">{description}</p>}
           <form onSubmit={handleSubmit}>

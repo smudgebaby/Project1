@@ -19,6 +19,43 @@
   margin: 0 auto;
 }
 
+.close-button {
+  margin: 0 0 0 auto;
+  overflow: hidden;
+	position: relative;
+	border: none;
+	padding: 0;
+	width: 2em; height: 2em;
+	border-radius: 50%;
+	color: black;
+	font: inherit;
+	text-indent: 100%;
+	cursor: pointer;
+
+  &:focus {
+		outline: solid 0 transparent;
+		box-shadow: 0 0 0 2px #1976d2
+	}
+
+  &:hover {
+		background: rgba(29, 161, 142, .1)
+	}
+	
+	&:before, &:after {
+		position: absolute;
+		top: 15%; 
+    left: calc(50% - .0625em);
+		width: .125em; 
+    height: 70%;
+		border-radius: .125em;
+		transform: rotate(45deg);
+		background: currentcolor;
+		content: ''
+	}
+	
+	&:after { transform: rotate(-45deg); }
+}
+
 .layout-form-container h1{
   text-align: center;
   margin-bottom: 20px;
