@@ -28,25 +28,25 @@ function App() {
   const [products, setProducts] = useState([]);
   const [searchInfo, setSearchInfo] = useState('*');
 
-  useEffect(() => {
-    let isSubscribed = true;
-
-    const checkStatus = () => {
-      try {
-        if (isSubscribed) {
-          dispatch(setCurrentUser(user));
-        }
-      } catch (error) {
-        console.error('Error checking user status:', error);
-      }
-    };
-
-    checkStatus();
-
-    return () => {
-      isSubscribed = false;
-    };
-  }, [dispatch]);
+  // useEffect(() => {
+  //   let isSubscribed = true;
+  //
+  //   const checkStatus = () => {
+  //     try {
+  //       if (isSubscribed) {
+  //         dispatch(setCurrentUser(user));
+  //       }
+  //     } catch (error) {
+  //       console.error('Error checking user status:', error);
+  //     }
+  //   };
+  //
+  //   checkStatus();
+  //
+  //   return () => {
+  //     isSubscribed = false;
+  //   };
+  // }, [dispatch]);
 
 
 

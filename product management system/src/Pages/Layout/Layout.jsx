@@ -45,7 +45,7 @@ const Layout = ({ status, title, description, buttonText, additionalLinks, isVal
   const handleSignIn = async () => {
     const user = await signInUser(email, password);
     if(user.token) {
-      dispatch(setCurrentUser(user));
+      dispatch(setCurrentUser({currentUser: user, expiresIn: new Date().getTime() + 60 * 1000}));
       navigate('/')
     } else {
       alert('Error signing in');
@@ -61,15 +61,10 @@ const Layout = ({ status, title, description, buttonText, additionalLinks, isVal
     }
   }
 
-  const handleClose = () => {
-    navigate('/')
-  }
-
   return (
     <>
       <div className='layout-container'>
         <div className='layout-form-container'>
-          <button className='close-button' onClick={handleClose}></button>
           <h1>{title}</h1>
           {description && <p className="description">{description}</p>}
           <form onSubmit={handleSubmit}>

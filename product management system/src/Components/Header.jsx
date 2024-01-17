@@ -37,7 +37,7 @@ function Header({setSearchInfo}) {
               </svg>
             </SvgIcon>
             {currentUser ? (<a className='pointer-button' onClick={() => {
-              dispatch(setCurrentUser(null));
+              dispatch(setCurrentUser({currentUser: null, expiresIn: null}));
             }
             }>Sign Out</a>) : (<Link to='/signin'>Sign In</Link>)}
           </div>
